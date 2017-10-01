@@ -3,6 +3,9 @@
 @grey-medium: #808080;
 @grey-strong: #696969;
 
+
+
+
 html, body {
 	height: 100%;
 	margin: 0;
@@ -77,6 +80,7 @@ body {
 		width: 60%;
 		float: right;
 		padding-top: 80px;
+		padding-bottom: 80px;
 
 		h1 {
 			color: @grey-strong;
@@ -86,6 +90,8 @@ body {
 
 		.piece {
 			margin-bottom: 30px;
+			margin-right: 20px;
+			margin-left: 10px;
 
 			.qst {
 				font-size: 24px;
@@ -102,15 +108,16 @@ body {
 			}			
 		}
 	}
+
+	@media screen and (max-width: 768px) {
+		.main, .secondary {
+			width: 100%;
+			float: none;
+		}
+	}
+
 }
 
 .clearfix {
 	clear: both;
-}
-
-@media screen and (max-width: 768px) {
-	.main, .secondary {
-		width: 100%;
-		float: none;
-	}
 }
