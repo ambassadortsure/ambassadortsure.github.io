@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Fibonachi</title>
+    <style type="text/css">
+      p {
+        font-weight: bold;
+        font-size: 30px;
+        margin-left: 20px;
+      }
+      .fl {
+        align: center;
+      }
+    </style>
+  </head>
+  <body>
+      <canvas class="fl" id="myCanvas" width="900" height="800"></canvas>
+      <div id="info" class="fl"></div>
+      <script>
+        var canvas = document.getElementById('myCanvas');
+        var context = canvas.getContext('2d');
+
+        var alpha = 0.0;
+        var d = 0.001;
+        
+
+        var fibo = [1,1,2,3,5,8,13,21,34,55];
+        var colors = ["black","blue","green","red","fuchsia","orange","purple","lime","silver","aqua"];
+        var qcount = prompt("Укажите количество четвертей от 1 до 10.");
+        var aluminum = prompt("Укажите длину листа металла в миллиметрах.");
+        var minR = (function(){
+          var s = 0;
+          for(var i=0; i<qcount; i++){
+            s += fibo[i];
+          }
+          return 2*aluminum/(Math.PI*s);
+        })();
+
+        var k = canvas.width/(fibo[qcount-1]*3);
+        var x = 450;
+        var y = 450;
+
+        var listR = fibo.map(function(item){return Math.round(item*minR)});
+        var listL = listR.map(function(item){return Math.round(Math.PI*item/2)});
+        var info = document.getElementById("info");
+
+        for(var j = 0; j < qcount; j++){
+          //alert("x = " + x + "; y = " + y + ";")
+          context.beginPath();
+          context.moveTo(x + fibo[j] * Math.cos(alpha) * k, y - fibo[j] * Math.sin(alpha) * k);
+          for(var i = 0.0; i < Math.PI/2; i += d) {
+            context.lineTo(x + fibo[j] * Math.cos(alpha) * k, y - fibo[j] * Math.sin(alpha) * k);
+            alpha += d;
+          }
+          context.lineJoin = 'round';
+          context.lineWidth = 3;
+          context.strokeStyle = colors[j];
+          context.stroke();
+
+          context.beginPath();
+          context.rect(Math.min(x + fibo[j] * Math.cos(alpha - Math.PI / 2) * k, x + fibo[j] * Math.cos(alpha) * k),
+                       Math.min(y - fibo[j] * Math.sin(alpha - Math.PI / 2) * k,
+                       y - fibo[j] * Math.sin(alpha) * k),
+                       fibo[j] * k, fibo[j] * k);
+          context.lineWidth = 0.5;
+          context.strokeStyle = "black";
+          context.stroke();
+
+          x -= (fibo[j+1] - fibo[j]) * Math.cos(alpha) * k;
+          y += (fibo[j+1] - fibo[j]) * Math.sin(alpha) * k;
+
+          var elem = document.createElement('p');
+          elem.innerHTML = "Радиус дуги равен " + listR[j] + " мм. Длина дуги равна " + listL[j] + " мм.";
+          elem.style.color = colors[j];
+          info.appendChild(elem);
+        }
+      </script>
+  </body>
+</html>
